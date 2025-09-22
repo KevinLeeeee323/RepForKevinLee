@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+    归并排序.
+    将待排序数组不断拆成左右两个子数组, 直到数组只有一个元素.
+    然后从底向上的, 通过双指针法合并子数组为一个有序数组, 直到原数组本身有序.
+    时间复杂度:O(NlogN) 
+*/
 void Merge(int left, int mid, int right, int* arr)
 {
     // 将两个子数组 A 和 B, 合并成有序数组
