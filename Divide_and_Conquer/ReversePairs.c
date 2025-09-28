@@ -71,6 +71,18 @@ int CrossSubArray_ReversePairs(int left, int mid, int right, int* arr)
     for(int k=0; k<=top; k++)
         arr[k+left]=tmp[k];
     return cnt_reverse_pairs;
+    
+    /*
+        注:若题目条件改成 逆序对的如下定义:
+        X(i,j)=1 iff i<j and arr[i]>3*arr[j], 
+        则需要先对两个子数组利用双指针的方式算一次跨子数组的逆序数(判定标准 arrr[i]>3*arr[j] 或 arr[i]<=3*arr[j])
+        再对于整个数组进行双指针排序(判定标准 arr[i]>arr[j] 或 arr[i]<=arr[j]).
+    
+        如果不像上面说的这样, 而只是单纯将上述代码中的判别条件改为 arr[i]<3*arr[j] && arr[i]>=3*arr[j]
+        则会造成排序错误.
+        就比如, arr[i]=4, arr[j]=2, 理论上排序时应该 arr[j]=2 在前, arr[i]=4 在后, 
+        但是由于 arr[i]<3*arr[j], 则会 arr[i]=4 在前, arr[j]=2 在后, 从而排序错误, 造成最终结果错误
+    */
 }
 
 int SubArray_ReversePairs(int left, int right, int* arr)
