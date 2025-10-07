@@ -120,4 +120,7 @@ int main()
 
     int ReversePair_cnt2=ReversePairs_Divide_and_Conquer(arr, size);
     printf("%d\n", ReversePair_cnt2);
+    /* 
+    注: 方法二会对原数组顺序造成改变, 后续步骤进行时, 应考虑方法二带来的影响
+    */
 }

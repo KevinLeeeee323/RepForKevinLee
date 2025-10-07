@@ -59,25 +59,35 @@ int FixedPivotPartition(int left, int right, int* arr) //固定主元时的划�
         }
     }
     swap(&arr[right], &arr[i+1]);
-    printf("%d ", i+1);
+    // printf("%d ", i+1);
     return i+1; 
 }
 
 
-int RandomizedPivotPartition(int left, int right, int* arr)
-{
-    int random_pivot=rand() % (right - left + 1) + left;
-    /*
-        rand() 函数默认生成 0 ~ RAND_MAX(<stdlib.h> 定义的常量, 通常为 32767, 即 16 位整数最大值) 之间的整数
-        要生成 下标为[left, right]（包含边界）的之间的随机整数作为主元下标，需两步：
-        生成 0 ~ (right - left) 范围内的随机数；
-        加上 left，将范围偏移到 [left, right]
-    */
+// int RandomizedPivotPartition(int left, int right, int* arr) // 随机选择主元时的划分方法
+// {
+//     int random_pivot=rand() % (right - left + 1) + left;
+//     /*
+//         rand() 函数默认生成 0 ~ RAND_MAX(<stdlib.h> 定义的常量, 通常为 32767, 即 16 位整数最大值) 之间的整数
+//         要生成 下标为[left, right]（包含边界）的之间的随机整数作为主元下标，需两步：
+//         生成 0 ~ (right - left) 范围内的随机数；
+//         加上 left，将范围偏移到 [left, right]
+//     */
 
-    printf("%d ", random_pivot);
-    swap(&arr[right], &arr[random_pivot]);
-    return FixedPivotPartition(left, right, arr); //将随机主元调换到当前子数组的最后一个元素, 然后方法同固定主元时的划分方法
-}
+//     printf("%d ", random_pivot);
+//     swap(&arr[right], &arr[random_pivot]);
+//     return FixedPivotPartition(left, right, arr); //将随机主元调换到当前子数组的最后一个元素, 然后方法同固定主元时的划分方法
+// }
+
+/*
+    复杂度分析：
+    取决于每次划分主元后,主元的位置.
+    如果每次主元都在正中间, 那么 T(n)=2*T(n/2)+O(n), 从而 T(n)=O(n*logn), 这是最好情况
+    如果每次主元都在最左侧/每次都在最右侧, 那么 T(n)=T(n-1)+O(n), 从而 T(n)=O(n^2), 这是最坏情况
+    最坏情况从何而来?主元特别小 or 特别大
+    为了避免每次主元都在最左侧/最右侧, 可以随机选择主元, 从而避免这一情况的发生
+    可以证明, 在这种随机选择主元的方式下, 期望时间复杂度为 O(n*logn)
+*/
 
 void Divide_and_Conquer(int left, int right, int* arr)
 {
