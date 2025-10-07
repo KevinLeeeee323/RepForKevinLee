@@ -5,7 +5,7 @@
 #define MIN -2147483648 //INT32_MIN
 
 /*
-    次序选择问题: 如何找出无序数组中的第 K 小元素?
+    次序选择问题: 如何找出无序数组中的第 K 小元素?(K≥1)
 
     方法一: 
     - 进行升序排序, 选出第 K 个元素, 就是第 K 小的
@@ -38,7 +38,7 @@ int compare(const void* a, const void* b)
 
 int Kth_Min_Sort(int k, int* arr, int arrSize)
 {   
-    if(k<1 || k>arrSize)
+    if(k<1 || k>arrSize) // 排除不可能存在的情况
     {
         printf("index out of array!");
         return MIN;
@@ -95,7 +95,7 @@ int FixedPivotPartition(int left, int right, int* arr)
 
 int Divide_and_Conquer(int left, int right, int k, int* arr)
 {
-    if(k<1 || k>right-left+1)
+    if(k<1 || k>right-left+1) // 排除不可能存在的情况
     {
         printf("index out of array!");
         return MIN;
@@ -150,8 +150,3 @@ int main()
 
     printf("%d", Kth_Min_FixedPivotPartition(k, arr, size));
 }
-
-
-
-
-
