@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.tex": "latex",
+        "*.asm": "assembly",
+        "stdio.h": "c",
+        "stdlib.h": "c"
+    }
+}

@@ -141,7 +141,7 @@ int main()
 {
     int arr[]={17, 13, 14, 4, 8, 18, 22, 52, 40, 24, 48, 28, 47, 21, 42, 37};
     int size=sizeof(arr)/sizeof(int);
-    int k=8;
+    int k=0;
 
 
     // printf("%d", Kth_Min_Sort(k, arr, size)); 
@@ -149,4 +149,5 @@ int main()
     // 不要在测试完方法一后接连测试其他方法, 因为方法一已经对其进行重新排序, 无法验证后续代码的正确性
 
     printf("%d", Kth_Min_FixedPivotPartition(k, arr, size));
+    // 如果想要求第 k 大元素, 只需调用 Kth_Min_FixedPivotPartition(size+1-k, arr, size);
 }
