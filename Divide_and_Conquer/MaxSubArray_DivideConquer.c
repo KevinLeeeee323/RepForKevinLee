@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 /*
-    要解决的问题: 计算最大(子数组元素之和), 并且输出此时的子数组首尾元素下标.
+    最大子数组 之 分治算法
+
+    要解决的问题: 给定长度为 n 的无序数组, 计算最大(子数组元素之和), 并且输出此时的子数组首尾元素下标.
     子数组是指原数组中连续的一部分, 元素个数 ≥ 1
 
     以下有三个方法:
@@ -141,7 +143,7 @@ int main()
 {
     int arr[]={-2,1,-3,4,-1,2,1,-5,4};
     int size=sizeof(arr)/sizeof(int);
-    int i_save=-1, j_save=-1;
+    int i_save=-1, j_save=-1; // 分别记录最大子数组起终点下标
 
     //暴力枚举
     int max1=MaxSubArray_Brute_Force(arr, size, &i_save, &j_save);
