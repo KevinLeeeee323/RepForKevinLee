@@ -22,65 +22,156 @@
 
         这样递归的去计算 Knap(n, C), 得出最终答案
         递归终止条件:  x<0
-            
+
         这样的递归算法, 计算一个 Knap(i, x)涉及到两个子部分, 因此 Knap(n, C)复杂度 2^n
 
     [方法 3] 记忆化搜索
         上面的递归会涉及到很多重复计算的部分, 因此通过记忆化搜索的方式降低计算成本.
         通过二维数组P(n, c)存储KnapSack(n, C), 每次调用直接取值求 max 即可.
-        
+
         时间复杂度为 O(n*C), 空间复杂度为 O((n+1)*(C+1))(需要给数组填上一些辅助 0)
         具体见:https://www.bilibili.com/video/BV1TC4y1W7wC?spm_id_from=333.788.videopod.episodes&vd_source=c8e4e809f91f46885a44be8339a7976c&p=19 的6:50s图
 
         如何记录获得最大价值时, 到底选了哪些商品?
-        使用另一个二维数组, 通过回溯追查到最优解的时候, 是否选择了那个商品.
-        [回溯记录这里不太懂, 需要再看一下]
+        使用另一个二维数组rec, 通过回溯追查到最优解的时候, 是否选择了那个商品.
+        rec[i][j]=1, 表示在背包剩余容量为 j 时, 选择了当前第 i 个商品;rec[i][j]=0 则表示没选
 */
-# define max(a, b) (((a)>(b))?(a):(b))
-
-int KnapSack_recursive(int n, int C, int* v, int* p) //方法 2: 递归枚举
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+#define MAX 2147483647
+int KnapSack_recursive(int i_th, int volume, int *v, int *p) // 方法 2: 递归枚举
 {
-    if(C<=0 || n<1)
-        return 0;
-    int total_price1=KnapSack_recursive(n-1, C, v, p);
-    if(C<v[n])
-        return total_price1;
+    // 取编号为 1~i_th 之内的商品, 返回起不超过 当前剩余背包容积volume的最大价值
+    if (i_th == 1)
+        return (v[1] > volume) ? 0 : p[1];
     else
     {
-        int total_price2=KnapSack_recursive(n, C-v[n], v, p)+p[n];
-        return max(total_price1, total_price2);
+        int total_price1 = KnapSack_recursive(i_th - 1, volume, v, p); // 不选 i_th 号商品, 考虑前 1~i_th 号商品
+        if (volume < v[i_th])
+            return total_price1;
+        else
+        {
+            int total_price2 = KnapSack_recursive(i_th - 1, volume - v[i_th], v, p) + p[i_th]; // 选 i_th 号商品, 再考虑前 1~i_th 号商品
+            return max(total_price1, total_price2);
+        }
     }
 }
 
-
-int KnapSack_memoization(int n, int C, int* v, int* p) // 方法 3:记忆化搜索
+int KnapSack_memoization(int n, int C, int *v, int *p, int **item_save, int *top) // 方法 3:记忆化搜索
 {
-    int** pack=(int*)malloc(sizeof(int*)*(n+1));
-    for(int i=0; i<=n; i++)
-        pack[i]=(int*)calloc(C+1, sizeof(int)); //置零
+    int **pack = (int **)malloc(sizeof(int *) * (n + 1));
+    int **rec = (int **)malloc(sizeof(int *) * (n + 1));
 
-
-
-
+    int i = 0, j = 0;
+    for (i = 0; i <= n; i++)
+    {
+        pack[i] = (int *)calloc(C + 1, sizeof(int)); // 置零
+        rec[i] = (int *)calloc(C + 1, sizeof(int));
+    }
+    int tmp1 = -1, tmp2 = -1;
+    for (i = 1; i <= n; i++)
+    {
+        for (j = 1; j <= C; j++)
+        {
+            // 实际上应该分 i==1 讨论, 但是考虑到pack[0][j]==pack[i][0]==0, 可以不,直接写下面的就行
+            // 二维数组rec, 通过回溯追查到最优解的时候, 是否选择了那个商品
+            // rec[i][j]=1, 表示在背包剩余容量为 j 时, 选择了当前第 i 个商品;rec[i][j]=0 则表示没选
+            if (j < v[i])
+            {
+                pack[i][j] = pack[i - 1][j];
+                rec[i][j] = 0;
+            }
+            else
+            {
+                tmp1 = pack[i - 1][j];
+                tmp2 = pack[i - 1][j - v[i]] + p[i];
+                if (tmp1 < tmp2)
+                {
+                    pack[i][j] = tmp2;
+                    rec[i][j] = 1;
+                }
+                else
+                {
+                    pack[i][j] = tmp1;
+                    rec[i][j] = 0;
+                }
+            }
+        }
+    }
     
-    // 回溯部分代码应该也在这里面, 确定哪些商品被选中
-    int ans=pack[n][C];
+    /*
+        // debug 使用
+        // 打印动态规划矩阵
+        for (int i = 0; i <= n; i++)
+        {
+            for (int j = 0; j <= C; j++)
+                printf("%d ", pack[i][j]);
+            printf("\n");
+        }
+
+        // 打印动态规划矩阵
+        for (int i = 0; i <= n; i++)
+        {
+            for (int j = 0; j <= C; j++)
+                printf("%d ", rec[i][j]);
+            printf("\n");
+        }
+    */
+
+    /*
+        进行回溯, 通过 rec 数组 查找那些被选择了, 并且将所有选择了的存储在 *item_save这个一维数组中. *top指向栈顶.
+        具体来说, 如果当前 rec[i][j]=1, 则说明这个商品在剩余背包容量为 j 时被选择了, 将其添加到*item_save 中
+        并且考虑 rec[i-1][j-v[i]], 查看没有选i 时的最优决策下, 选了什么物品
+        详见 https://www.bilibili.com/video/BV1TC4y1W7wC?spm_id_from=333.788.videopod.episodes&vd_source=c8e4e809f91f46885a44be8339a7976c&p=19  的15:40 秒
+        回溯部分时间复杂度 O(n)
+    */
+    int tmp_volume=C;
+    int id_cnt=n;
+    *item_save=(int*)calloc(n+1, sizeof(int));
+    *top=0;
+    while(id_cnt>0)
+    {
+        if(rec[id_cnt][tmp_volume]==1)
+        {
+            tmp_volume-=v[id_cnt];
+            (*item_save)[++(*top)]=id_cnt;
+        }
+        id_cnt--;
+    }
+
+    int ans = pack[n][C];
     free(pack);
+    free(rec);
     return ans;
 }
-
-
-
-
-
-
-
-
 
 /*---------------------------------------------*/
 
 // 以下是测试代码
 int main()
 {
+    int volume[] = {-100, 4, 1, 6, 5};
+    int price[] = {-100, 4, 5, 12, 9};
 
+    // int volume[] = {-100, 3, 4, 5, 4, 10};
+    // int price[] = {-100, 2, 9, 10, 9, 24};
+    int n = sizeof(price) / sizeof(int) - 1;
+    // volume[0], price[0]都是占位, 不参与运算. 函数中的下标运算 1~n
+
+    int C = 10;
+
+    // 方法1
+    printf("%d\n", KnapSack_recursive(n, C, volume, price));
+
+    // 方法2
+    int *item_save = NULL;
+    int top = -1;
+    printf("%d\n", KnapSack_memoization(n, C, volume, price, &item_save, &top));
+    if(top>=1)
+    {
+        printf("the selected items are: (index of the items are listed below)\n");
+        for(int i=1; i<=top; i++)
+            printf("%d ", item_save[i]);
+    }
+    else
+        printf("no item is selected.\n");
 }
