@@ -40,8 +40,16 @@
 
 int KnapSack_recursive(int n, int C, int* v, int* p) //方法 2: 递归枚举
 {
-
-
+    if(C<=0 || n<1)
+        return 0;
+    int total_price1=KnapSack_recursive(n-1, C, v, p);
+    if(C<v[n])
+        return total_price1;
+    else
+    {
+        int total_price2=KnapSack_recursive(n, C-v[n], v, p)+p[n];
+        return max(total_price1, total_price2);
+    }
 }
 
 
