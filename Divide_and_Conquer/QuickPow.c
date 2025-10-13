@@ -29,9 +29,3 @@ int main()
     printf("%lf", Pow_Divide_and_Conquer(3.1, 2));
 }
 
-
-/*
-    Task2: 多项式乘法
-
-*/
-
