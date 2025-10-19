@@ -82,7 +82,7 @@ int main()
     HashEntry* table=HashInit();
     int read=-1;
     while(scanf("%d", &read)!=EOF)
-        UpdateHashTable(read, table); //逐个读入, 更新哈西表并且处理哈希冲突
+        UpdateHashTable(read, table); //逐个读入, 更新哈希表并且处理哈希冲突
     
     // 以下: 寻找并且输出最大次数的元素, 没有直接利用"元素个数>= n/2"条件, 而是直接去求最大次数了
     int ans=FindMaxCnt(table);
