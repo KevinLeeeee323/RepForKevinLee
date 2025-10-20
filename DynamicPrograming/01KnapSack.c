@@ -139,8 +139,12 @@ int KnapSack_memoization(int n, int C, int *v, int *p, int **item_save, int *top
     }
 
     int ans = pack[n][C];
+
+    for(i=0; i<=n; i++)
+        free(pack[i]);
     free(pack);
     free(rec);
+    
     return ans;
 }
 
