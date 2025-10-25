@@ -161,6 +161,7 @@ int MaximumFullOneSquare_DP(int* linear_mat, int M, int N)
             max_dp=(max_dp<dp[k])?dp[k]:max_dp; // 同时更新dp 中的最大值 max_dp
         }
     }
+    free(dp);
     return max_dp*max_dp; //根据题意, 返回最大全 1 正方形的面积 
 }
 
