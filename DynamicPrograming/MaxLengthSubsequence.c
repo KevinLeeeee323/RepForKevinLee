@@ -12,6 +12,12 @@
 
         序列 Z 是序列 X和 Y 的公共子序列当且仅当 Z 是序列 X 的子序列, 也是序列 Y 的子序列.
 
+        [区分子序列 & 子串]
+            子序列中的元素可以不相邻, 子串不可以
+            子串定义, 参考 MaxLengthSubString.c
+
+            序列 Arr {所有子串组成的集合} 是其 {所有子序列组成集合} 的子集
+    
     [思路一]Brute-Force 蛮力枚举
         枚举 X 的所有子序列 Z, 并且看 Z 是否也是 Y 的子序列. 维护一个公共子序列的最大长度 maxlen.
         如果是的话, 比较 Z 序列的长度和 maxlen, 如果 Z 的长度更长, 那就更新 maxlen.
@@ -31,7 +37,7 @@
         下寻找递推式:
         dp[i][j]=max{dp[i][j-1], dp[i-1][j]}, 若 X[i]!=Y[j]
         dp[i][j]=max{dp[i-1][j-1]+1, dp[i][j-1], dp[i-1][j]}=dp[i-1][j-1]+1, 若 X[i]==Y[j]
-        (注:这里认为 X, Y数组的下标索引从 1 开始. 但是下面代码的代码中则不然, 仍是从 0 开始)
+        (注:这里认为 X, Y数组的下标索引从 1 开始. 但是下面的代码中则不然, 仍是从 0 开始)
 
         具体推导过程见 https://www.bilibili.com/video/BV1TC4y1W7wC?spm_id_from=333.788.player.switch&vd_source=c8e4e809f91f46885a44be8339a7976c&p=24 
 
@@ -138,18 +144,10 @@ int MaxLengthSubSequence(char* X, char* Y, char** ans)
     }
     (*ans)[maxlen]='\0';
 
-    printMats(n+1, m+1, dp);
-    printf("--------------------\n");
-    printMats(n+1, m+1, rec);
-
-    /*
-    问题:
-    1. 似乎一些判断条件, 比如>=还是>和 PPT 上的不太一样(回溯和求 dp[n][m]过程中), 因为看起来输出的 rec 矩阵不太一样...
-    2. 不知道是不是自己的 rec 矩阵写的逻辑上有问题, 尤其是那个 while 循环的判别条件
-    3. 是否 X, Y 的下标没倒对? 
-    4. 不行就跑一下 CG 平台的例子, 以检验上面的问题. 注意那上面的换行符是\r\n, 了解一下和 mac上不同体现在哪里.如果有必要的话, 手写一个 strlen 只统计字符.
-
-    */
+    // debug info
+    // printMats(n+1, m+1, dp);
+    // printf("--------------------\n");
+    // printMats(n+1, m+1, rec);
 
     for(i=0; i<=n; i++)
     {

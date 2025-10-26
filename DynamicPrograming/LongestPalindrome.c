@@ -52,7 +52,7 @@ char* FindLongestPalindrome(char* s)
             else if(i==j-1)
                 dp[i][j]=(s[i]==s[j]); // 两个字符的情况
             else
-                dp[i][j]=dp[i+1][j-1]&(s[i]==s[j]);
+                dp[i][j]=dp[i+1][j-1]&(s[i]==s[j]); // 通过位运算来表示两个条件同时成立
             if(dp[i][j]==1 && j-i+1>maxlen_str)
             {
                 maxlenI=i;
