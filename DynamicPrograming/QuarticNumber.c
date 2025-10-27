@@ -66,7 +66,10 @@ int* genDict(int m, int* dictSize)
 
 // 然后在外部给 dict 传参:
 int dictNum=0;
-int* dict=genDict(m, &dictNum);
+int* dict=genDict(max, &dictNum);
+
+上面这两行要放到 DP 函数中, 因为C语言中全局变量（包括静态变量）的初始化需要在编译时完成.
+初始化值必须是编译器可知的常量(如字面量、宏定义的常量等), 而函数调用(如 genDict(max, &dictNum))的结果是在运行时计算的, 无法用于全局变量的初始化
 */
 
 int QuarticNumber_DP_rec1(int m, int** returnArr, int* returnSize)
