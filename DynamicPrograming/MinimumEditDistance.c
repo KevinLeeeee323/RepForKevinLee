@@ -80,12 +80,14 @@
     [复杂度分析]
 
 */
+
+// 注: 以下字符串下标从 0 开始
 struct Modify
 {
     int type;
     char origin;
     char result;
-    int position;
+    int position; // 下标从 0 开始
 };
 typedef struct Modify node;
 typedef struct Modify* list;
@@ -105,6 +107,7 @@ int MinimumEditDistance(char* A, char* B, list* OperateStack, int* OperateStackS
     {
         for(j=0; j<=m; j++)
         {
+            // 注: 以下字符串下标从 0 开始
             k=i*(m+1)+j; // dp/rec[i][j] <-> dp/rec_linear[i*(m+1)+j], 
             if(i==0 || j==0)
             {
@@ -151,6 +154,7 @@ int MinimumEditDistance(char* A, char* B, list* OperateStack, int* OperateStackS
     int tmp=0;
     while(i>0 || j>0)
     {
+    // 注: 以下字符串下标从 0 开始
         k=i*(m+1)+j;
         tmp=rec_linear[k];
         if(i>0 && j>0)
@@ -160,7 +164,7 @@ int MinimumEditDistance(char* A, char* B, list* OperateStack, int* OperateStackS
                 (*OperateStack)[++top].type=tmp;
                 (*OperateStack)[top].origin='\0';
                 (*OperateStack)[top].result=B[j-1];
-                (*OperateStack)[top].position=j;
+                (*OperateStack)[top].position=i; // 插入 B[j-1], 插入位置: A[i]
                 j--;
             }
             else if(tmp==1) // 删除A[i-1]
@@ -168,7 +172,7 @@ int MinimumEditDistance(char* A, char* B, list* OperateStack, int* OperateStackS
                 (*OperateStack)[++top].type=tmp;
                 (*OperateStack)[top].origin=A[i-1]; 
                 (*OperateStack)[top].result='\0';
-                (*OperateStack)[top].position=i-1;
+                (*OperateStack)[top].position=i-1; // 删除 A[i-1]
                 i--;
             }
             else // tmp==2
@@ -178,7 +182,8 @@ int MinimumEditDistance(char* A, char* B, list* OperateStack, int* OperateStackS
                     (*OperateStack)[++top].type=tmp;
                     (*OperateStack)[top].origin=A[i-1]; 
                     (*OperateStack)[top].result=B[j-1];
-                    (*OperateStack)[top].position=i;
+                    (*OperateStack)[top].position=i-1;
+                    // A[i-1]换成 B[j-1]
                 }
                 i--, j--;
             }  
@@ -202,19 +207,29 @@ int MinimumEditDistance(char* A, char* B, list* OperateStack, int* OperateStackS
     return ans;
 }
 
-
+char number_suffix[][3]={"st", "nd", "rd", "th"};
+// char* NumberSuffix(int n)
+// {
+//     int tmp=n%10;
+//     if(tmp>=1 && tmp<=3)
+//         return number_suffix[tmp-1];
+//     else
+    
+// }
 
 /*---------------Test Case---------------*/
 int main()
 {
-    char A[]="ABCBDAB";
-    char B[]="BDCABA";
+    char A[]="ABC_BDAB";
+    char B[]="BD!CABA";
+    // char A[]="hello,word";
+    // char B[]="hell_world!";
 
     list OperateStack=NULL;
     int OperateStackSize=0;
     int ans=MinimumEditDistance(A, B, &OperateStack, &OperateStackSize);
-    printf("\n%d\n", ans);
-    printf("Below shows how to convert from String A to String B\n");
+    printf("Minimum Edit Distance: %d\n", ans);
+    printf("Below shows how to convert from String A to String B:\n\n");
     int tmp=0;
     
     // 以下: 角标和字符对应不上
@@ -222,10 +237,10 @@ int main()
     {
         tmp=OperateStack[i].type;
         if(tmp==0)
-            printf("Insert '%c' after the %d_th character of A, which is '%c'\n", OperateStack[i].result, OperateStack[i].position+1, A[OperateStack[i].position]);
+            printf("Insert '%c' after the %d_th character of String A, which is '%c'\n", OperateStack[i].result, OperateStack[i].position, A[OperateStack[i].position-1]);
         else if(tmp==1)
-            printf("Delete the %d_th character of A, which is, '%c'\n", OperateStack[i].position+1, OperateStack[i].origin);
+            printf("Delete the %d_th character of String A, which is, '%c'\n", OperateStack[i].position+1, OperateStack[i].origin);
         else // tmp==2
-            printf("Convert the %d_th character of A, which is '%c', to '%c'\n", OperateStack[i].position+1, OperateStack[i].origin, OperateStack[i].result);
+            printf("Convert the %d_th character of String A which is '%c', to '%c'\n", OperateStack[i].position+1, OperateStack[i].origin, OperateStack[i].result);
     }
 }
