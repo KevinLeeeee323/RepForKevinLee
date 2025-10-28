@@ -78,7 +78,10 @@
             创建一维数组 rec_linear[], dp[i][j] <-> rec_linear[i*(m+1)+j]
 
     [复杂度分析]
+        递推部分两重 for 循环, 复杂度 O((n+1)*(m+1)).
+        回溯部分复杂度小于递推部分
 
+        因此最终复杂度 O((n+1)*(m+1))
 */
 
 // 注: 以下字符串下标从 0 开始
@@ -208,16 +211,18 @@ int MinimumEditDistance(char* A, char* B, list* OperateStack, int* OperateStackS
 }
 
 char number_suffix[][3]={"st", "nd", "rd", "th"};
-// char* NumberSuffix(int n)
-// {
-//     int tmp=n%10;
-//     if(tmp>=1 && tmp<=3)
-//         return number_suffix[tmp-1];
-//     else
-    
-// }
+char* NumberSuffix(int n)
+{
+    // 规范语法, 让最后打印的时候, 如果是 1/2/3, 输出 1st/2nd/3rd, 而不是 1th/2th/3th
+    int tmp=n%10;
+    if(tmp>=1 && tmp<=3)
+        return number_suffix[tmp-1];
+    else
+        return number_suffix[3];
+}
 
-/*---------------Test Case---------------*/
+
+/*--------------------------Test Case--------------------------*/
 int main()
 {
     char A[]="ABC_BDAB";
@@ -231,16 +236,19 @@ int main()
     printf("Minimum Edit Distance: %d\n", ans);
     printf("Below shows how to convert from String A to String B:\n\n");
     int tmp=0;
+    int pos=0;
     
-    // 以下: 角标和字符对应不上
+    // 打印如何修改.
+    // 其中的下标从 1 开始,都以A 的原始字符串为准.
     for(int i=OperateStackSize-1; i>=0; i--)
     {
         tmp=OperateStack[i].type;
+        pos=OperateStack[i].position;
         if(tmp==0)
-            printf("Insert '%c' after the %d_th character of String A, which is '%c'\n", OperateStack[i].result, OperateStack[i].position, A[OperateStack[i].position-1]);
+            printf("Insert '%c' after the %d_%s character of String A, which is '%c'\n", OperateStack[i].result, pos, NumberSuffix(pos), A[pos-1]);
         else if(tmp==1)
-            printf("Delete the %d_th character of String A, which is, '%c'\n", OperateStack[i].position+1, OperateStack[i].origin);
+            printf("Delete the %d_%s character of String A, which is, '%c'\n", pos+1, NumberSuffix(pos+1), OperateStack[i].origin);
         else // tmp==2
-            printf("Convert the %d_th character of String A which is '%c', to '%c'\n", OperateStack[i].position+1, OperateStack[i].origin, OperateStack[i].result);
+            printf("Convert the %d_%s character of String A which is '%c', to '%c'\n", pos+1, NumberSuffix(pos+1), OperateStack[i].origin, OperateStack[i].result);
     }
 }
