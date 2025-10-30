@@ -225,8 +225,8 @@ char* NumberSuffix(int n)
 /*--------------------------Test Case--------------------------*/
 int main()
 {
-    char A[]="ABC_BDAB";
-    char B[]="BD!CABA";
+    char A[]="horse";
+    char B[]="ros";
     // char A[]="hello,word";
     // char B[]="hell_world!";
 
