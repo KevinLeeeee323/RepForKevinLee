@@ -6,15 +6,16 @@ import itertools
 # 定义微分方程组: dx/dt = x + y, dy/dt = x - 3y
 def system(t, state):
     x, y = state
-    dxdt =y**3-4*x    # dx/dt的表达式
-    dydt = y**3-y-3*x   # dy/dt的表达式
+    dxdt = y    # dx/dt的表达式
+    dydt = -np.sin(x)  # dy/dt的表达式
     return [dxdt, dydt]
 
 # 时间范围
 t_start = 0
-t_end = 0.08
+t_end = 10
 t_eval = np.linspace(t_start, t_end, 100)  # 用于绘图的时间点
 
+# 设置初值点
 x0s=np.arange(2, 3, 0.4)
 y0s=np.arange(2, 3, 0.4)
 
