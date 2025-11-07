@@ -7,7 +7,7 @@ import itertools
 def system(t, state):
     x, y = state
     dxdt = y    # dx/dt的表达式
-    dydt = -np.sin(x)  # dy/dt的表达式
+    dydt = -2*y-np.sin(x)  # dy/dt的表达式
     return [dxdt, dydt]
 
 # 时间范围
@@ -16,9 +16,10 @@ t_end = 10
 t_eval = np.linspace(t_start, t_end, 100)  # 用于绘图的时间点
 
 # 设置初值点
-x0s=np.arange(2, 3, 0.4)
-y0s=np.arange(2, 3, 0.4)
-
+# x0s=np.arange(2, 3, 0.4)
+# y0s=np.arange(2, 3, 0.4)
+x0s=[0.1]
+y0s=[0.1]
 # 创建图形
 plt.figure(figsize=(8, 4))
 # 设置图形属性
