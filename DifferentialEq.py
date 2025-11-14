@@ -6,8 +6,8 @@ import itertools
 # 定义微分方程组: dx/dt = x + y, dy/dt = x - 3y
 def system(t, state):
     x, y = state
-    dxdt = y    # dx/dt的表达式
-    dydt = -2*y-np.sin(x)  # dy/dt的表达式
+    dxdt = -x-y+x*(x**2+2*y**2)    # dx/dt的表达式
+    dydt = x-y+y*(x**2+2*y**2)  # dy/dt的表达式
     return [dxdt, dydt]
 
 # 时间范围
