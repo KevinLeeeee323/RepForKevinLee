@@ -55,6 +55,7 @@ int main()
 
         nodeDepList_ColSize[i]则表示深度为 i的节点的数量, 其实是在告诉 nodeDepList[i]中有多少个元素. 借鉴了 LeetCode 的接口表示方法.        
     */
+
     qsort(nodeList, n+1, sizeof(node), compare);
     int maxDepth=nodeList[n].depth;
     node** nodeDepList=(node**)malloc(sizeof(node*)*(maxDepth+1));  // 只存储其 id
@@ -71,12 +72,18 @@ int main()
     // for(dep=1; dep<=maxDepth; dep++)
     //     nodeDepList_ColSize[dep]=top[dep];
 
-    // // temporary debug
-    // for(int i=1; i<=maxDepth; i++)
-    //     for(int j=0; j<nodeDepList_ColSize[i]; j++)
-    //         printf("depth of %d: %d\n", nodeDepList[i][j].id, i);
+    // temporary debug
+    for(int i=1; i<=maxDepth; i++)
+        for(int j=0; j<nodeDepList_ColSize[i]; j++)
+            printf("depth of %d: %d\n", nodeDepList[i][j].id, i);
 
-    // 动态规划
+    // 
+    /*
+        动态规划部分. 大致思路是 AI 生成的
+        dp[i][0]表示1~i 的最大点权和, 在不选
+    
+    
+    */
     int** dp=(int**)malloc(sizeof(int*)*(maxDepth+1));
     for(int i=0; i<=maxDepth; i++)
         dp[i]=(int*)calloc(2, sizeof(int));
