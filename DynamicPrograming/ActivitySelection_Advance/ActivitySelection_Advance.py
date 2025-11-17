@@ -49,6 +49,8 @@
     随后进行回溯, 复杂度小于 O(N)
     因此, 最终总的复杂度 O(N*logN)
 
+
+    关于这部分的更多内容, 参考: https://www.bilibili.com/video/BV1TC4y1W7wC?spm_id_from=333.788.videopod.episodes&vd_source=c8e4e809f91f46885a44be8339a7976c&p=37 
 '''
 
 class Solution():
