@@ -71,7 +71,7 @@ class Solution():
         act_list_sorted=sorted(self.act_list, key=lambda x: x[0][1], reverse=False) # 依活动的完成时间升序排序活动
         act_list_sorted=[((0, 0), 0, 0)] + act_list_sorted # 添加 活动a_0
     
-        def BinarySearch(key): # 
+        def BinarySearch(key): 
             '''
             二分查找, 查找递增的活动时间结束序列中, 结束时间<=key(a_i 的开始时间)的最后一个活动
             该部分内容参考了 Divide_and_Conquer/BinarySearch.c中常规二分查找的变种"BinarySearch_LowerBound(int key, int* arr, int arrSize)"-- 找到第一个>= 目标值key 的元素位置
