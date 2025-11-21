@@ -6,7 +6,7 @@ from control import TransferFunction, frequency_response
 # 1. 定义积分环节传递函数 G(s) = 1/(s)（频域 G(jω) = 1/(jω)）
 # ----------------------
 num = [1]       # 分子：1
-den = [1, 0]    # 分母：s（即 s + 0）
+den = [2, 1, 0]    # 分母：s（即 s + 0）
 G = TransferFunction(num, den)
 
 # ----------------------

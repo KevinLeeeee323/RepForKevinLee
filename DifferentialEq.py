@@ -16,10 +16,10 @@ t_end = 10
 t_eval = np.linspace(t_start, t_end, 100)  # 用于绘图的时间点
 
 # 设置初值点
-# x0s=np.arange(2, 3, 0.4)
-# y0s=np.arange(2, 3, 0.4)
-x0s=[0.1]
-y0s=[0.1]
+x0s=np.arange(0, 3, 0.4)
+y0s=np.arange(0, 3, 0.4)
+# x0s=[0.1]
+# y0s=[0.1]
 # 创建图形
 plt.figure(figsize=(8, 4))
 # 设置图形属性
