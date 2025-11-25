@@ -1,20 +1,20 @@
 import numpy as np
 from collections import deque
+from typing import Optional
+from abc import ABCMeta, abstractmethod  # 用于定义抽象基类
 
-class Simple_Undirected_Unweighted_Graph(): 
-    '''
-        简单无向无权图.
-        简单: 每两个节点之间只有一条边(单向/双向)
-        无向: (u, v)之间有一条边, 则 u 可到 v, v 可到 u.
-        无权: 所有边的权值都为 1, 或者一个相同的值.
+'''
+关于 BFS, DFS, 去看 No_Class_Code 那里面的写法, 统一了全局接口和指定顶点 DFS/BFS 的接口
 
-        要求:
-        一个有 n个结点的简单无向无权图, 结点 id 范围 0, 1, 2... n-1.
-        边通过 Edges 数组存储, 每个元素是一个数组(u, v), 表示下标为u, v 结点之间存在一条无向无权边.
-    '''
 
+
+
+'''
+
+
+class Graph():
+    """图的抽象基类，定义公共属性和接口，提取所有图的共性逻辑"""
     def __init__(self, Vertices_id:list[int], Edges:list[tuple[int, int]]):
-        
         self.vertices=Vertices_id
         self.edges=Edges
 
@@ -23,14 +23,23 @@ class Simple_Undirected_Unweighted_Graph():
 
         self.adjM=self.build_adjacent_matrix()
     
+    
+    @abstractmethod
+    def build_adjacent_matrix(self):
+        """抽象方法:构建邻接结构(邻接矩阵/邻接表), 子类必须实现"""
+        pass
+   
+    @abstractmethod
+    def is_Directed(self)->bool:
+        """抽象方法:判断图是否有向, 子类必须实现(True=有向, False=无向)"""
+        pass
+    
 
-    def build_adjacent_matrix(self)-> np.ndarray: # 构建邻接矩阵
-        adjM=np.zeros((self.verNum, self.verNum))
-        for pair in self.edges:
-            adjM[pair[0], pair[1]]=1
-            adjM[pair[1], pair[0]]=1
-        return adjM
- 
+    @abstractmethod
+    def get_edge_weight(self, u: int, v: int) -> float:
+        """抽象方法：获取边(u,v)的权重, 子类必须实现(无权图返回1, 带权图返回实际权重)"""
+        pass
+
 
     def BFS_from_certain_node(self, start_id):
         '''
@@ -98,7 +107,7 @@ class Simple_Undirected_Unweighted_Graph():
 
     def DFS_from_certain_node(self, start_id):
         '''
-            从某一个节点开始, 进行 BFS(广度优先) 搜索
+            从某一个节点开始, 进行 DFS(广度优先) 搜索
 
             参数:
                 start_id: 开始搜索的结点下标
@@ -162,7 +171,61 @@ class Simple_Undirected_Unweighted_Graph():
                 if mark[v]==0:
                     yield from DFS/BFS_from_certain_node(v) # 要加上yield from
     ''' 
+   
+
+class Unweighted_Graph(Graph):
+    def __init__(self, Vertices_id: list[int], Edges: list[tuple[int, int]]):
+       super().__init__(Vertices_id, Edges)
+
+
+class Weighted_Graph(Graph):
+    def __init__(self, Vertices_id: list[int], Edges: list[tuple[int, int]], Edge_Weights:list[int]):
+        super().__init__(Vertices_id, Edges)
+    '''也许这里在__init__时, 需要多一个 EdgesWeights 参数传进来???'''
+
+
+
+class Simple_Undirected_Unweighted_Graph(Graph): 
+    '''
+        简单无向无权图.
+        简单: 每两个节点之间只有一条边(单向/双向)
+        无向: (u, v)之间有一条边, 则 u 可到 v, v 可到 u.
+        无权: 所有边的权值都为 1, 或者一个相同的值.
+
+        要求:
+        一个有 n个结点的简单无向无权图, 结点 id 范围 0, 1, 2... n-1.
+        边通过 Edges 数组存储, 每个元素是一个数组(u, v), 表示下标为u, v 结点之间存在一条无向无权边.
+    '''
+
+    def __init__(self, Vertices_id:list[int], Edges:list[tuple[int, int]]):
+        
+        self.vertices=Vertices_id
+        self.edges=Edges
+
+        self.verNum=len(Vertices_id)
+        self.edgeNum=len(Edges)
+
+        self.adjM=self.build_adjacent_matrix()
+    
+
+    def build_adjacent_matrix(self)-> np.ndarray: # 构建邻接矩阵
+        adjM=np.zeros((self.verNum, self.verNum))
+        for pair in self.edges:
+            adjM[pair[0], pair[1]]=1
+            adjM[pair[1], pair[0]]=1
+        return adjM
+    
+
+class Simple_Directed_Unweighted_Graph(Unweighted_Graph):
+    def __init__(self, Vertices_id: list[int], Edges: list[tuple[int, int]]):
+        super().__init__(Vertices_id, Edges)
+
+ 
+
+    
   
+
+
 if __name__=='__main__':
     n=8
     Vertices_id=[i for i in range(8)]
