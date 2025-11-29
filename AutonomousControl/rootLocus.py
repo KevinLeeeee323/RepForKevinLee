@@ -67,6 +67,6 @@ def plot_root_locus(poles, zeros, K_range=(0, 1e6), num_points=1000):
 # ------------------------------ 示例：绘制4阶系统根轨迹 ------------------------------
 if __name__ == "__main__":
     print("绘制根轨迹...")
-    poles = [0, 0, -2, -5]  # 开环极点
-    zeros = [-0.5]    # 开环零点
+    poles = [-1, (-1+np.sqrt(3)*1j)/2, (-1-np.sqrt(3)*1j)/2]  # 开环极点
+    zeros = [0]    # 开环零点
     plot_root_locus(poles, zeros, K_range=(0, 30))  
