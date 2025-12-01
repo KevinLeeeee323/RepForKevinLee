@@ -1,2 +1,2 @@
 Leetcode 图论题单:
-1462 题: 求一张图中每个顶点的连通分量,魔改dfs https://leetcode.cn/problems/course-schedule-iv/description/
+1462 题: 求一张图中的可达矩阵(即从一个点出发, 可以达到哪些结点. 详见图论中"可达"的定义),魔改dfs https://leetcode.cn/problems/course-schedule-iv/description/
