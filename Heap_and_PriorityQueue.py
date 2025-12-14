@@ -39,7 +39,7 @@ def heap_sort_heapq(iter)->list:
 
     '''
     以上四行一个更简单的写法:
-    return [heapq.heappop(h) for i in range(len(h))]
+    return [heapq.heappop(h) for _ in range(len(h))]
     '''
 
 
