@@ -1,5 +1,8 @@
 import numpy as np
 
+'''
+计算信息增益.
+'''
 def InfoGain(data:list[tuple[int, int]])->float:
     
     def DichotomyEntropy(yes:int, no:int)->float:
