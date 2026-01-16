@@ -86,7 +86,7 @@ if __name__=="__main__":
     for j in range(M):
         reach=can_reach_plant(j, height)
         if not reach:
-            un_flag=1
+            unreach_flag=1
             unreachable_cnt+=1
 
         dry_to_plant.append(reach)
