@@ -136,15 +136,17 @@ int BinarySearch_UpperBound(int key, int* arr, int arrSize) {
 // 以下是使用样例
 int main()
 {
-    int arr[]={-5, -1, 0, 0, 0, 11, 19, 23};
+    // int arr[]={-5, -1, 0, 0, 0, 11, 19, 23};
+    int arr[]={1, 3, 5, 6};
     int size=sizeof(arr)/sizeof(int);
-    int key=19;
+    // int key=19;
+    int key=2;
 
     // 方法一
     printf("%d\n", BinarySearch_Recursive(key, arr, size));
 
     // 方法二
-    printf("%d\n", BinarySearch_NoRecursive(key, arr, size));
+    // printf("%d\n", BinarySearch_NoRecursive(key, arr, size));
 
     //对比以下两种变体
     printf("%d\n", BinarySearch_LowerBound(key, arr, size)); //寻找第一个>=key 的
