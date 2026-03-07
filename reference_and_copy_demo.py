@@ -1,6 +1,8 @@
 '''
     一个示例代码, 展示了引用(reference)赋值, 浅拷贝(shallow copy), 深拷贝(deep copy)的差别.
     里面还涉及到了关于可变对象/不可变对象, 即可变性(variability)的讨论与讲解.
+
+    赋值操作('=') 改变的是「指向关系」，而不是修改对象本身
 '''
 
 my_list=[1, 2, 3, 4, [2, 3, 4]]
@@ -43,32 +45,52 @@ print('a', a)
 print('_b', _b)
 
 print('\n')
+print('当前的 my_list:', my_list, '\n')
 test=my_list.copy()
-test[4]=[10]
-print('test', test)
-print('my_list', my_list)
-
 test[4].append(5)
-print('test', test)
-print('my_list', my_list)
+print('修改后的test', test)
+print('修改 test后, 此时的my_list', my_list)
 '''
-    以上: 验证浅拷贝.
-    test 是 my_list 的浅拷贝.
-    浅拷贝(list.copy())的核心特性是只拷贝列表 “第一层结构”，嵌套的可变元素仍共享引用.
+浅拷贝中, 更深层次的结构仍是和原变量共享的. 修改拷贝后变量更深层的内容, 修改会同步到原变量上.
+浅拷贝(list.copy())的核心特性是只拷贝列表 “第一层结构”，嵌套的可变元素仍共享引用.
 
-    情况 1: test[4] = [10] → my_list 不变
-    这是修改新列表的 “第一层结构”，而非修改嵌套元素本身：
-    test[4] = [10] 的本质：给新列表 test 的第 5 个位置重新赋值，让它指向一个全新的列表 [10];
-    浅拷贝的新列表 test 第一层是独立于 my_list 的，因此这个赋值只影响 test, 不影响原列表 my_list 的第一层(my_list[4] 仍指向原来的 [2,3,4])
-    
-    但是, 浅拷贝中, 更深层次的结构仍是和原变量共享的. 修改拷贝后变量更深层的内容, 修改会同步到原变量上.
+浅拷贝的新列表 test 第一层是独立于 my_list 的，因此这个赋值只影响 test, 不影响原列表 my_list 的第一层(my_list[4] 仍指向原来的 [2,3,4])
 
-    test[4].append(5) → my_list 同步变化
+执行浅拷贝后:
+my_list ──→ [索引0: 1, 索引1: 2, 索引2: 3, 索引3: 4, 索引4: ●, 索引5: 5]
+                                                         │
+                                                         ▼
+                                                        [2, 3, 4]  (列表对象A)
+                                                         ▲
+                                                         │
+test  ─────→ [索引0: 1, 索引1: 2, 索引2: 3, 索引3: 4, 索引4: ●, 索引5: 5]
+my_list[4] 和 test[4] 都指向同一个列表对象A [2, 3, 4]
+
+test[4].append(5) → my_list 同步变化
     这是修改嵌套的可变元素本身，而非修改新列表的第一层：
     test[4] 指向的是原列表 my_list[4] 共享的那个嵌套列表 [2,3,4](浅拷贝只拷贝第一层，嵌套元素仍共享引用);
     append(5) 是对这个嵌套列表的「原地修改」(可变对象的特性), 因此所有指向它的引用(my_list[4]、test[4])都会感知到变化。
 
-    
+如果先执行了下面的 test[4]=[10], 那么此时 test 和 my_list就是两个不同的变量了, 完全没有共同指向的内容
+此时若再执行 test[4].append(5), 则不会同步修改 my_list[5]
+'''
+
+test[4]=[10]
+print('\ntest', test)
+print('my_list', my_list)
+'''
+执行 test[4] = [10] 后:
+my_list ──→ [索引0: 1, 索引1: 2, 索引2: 3, 索引3: 4, 索引4: ●, 索引5: 5]
+                                                         │
+                                                         ▼
+                                                        [2, 3, 4]  (列表对象A)
+
+test  ─────→ [索引0: 1, 索引1: 2, 索引2: 3, 索引3: 4, 索引4: ●, 索引5: 5]
+                                                          │
+                                                          ▼
+                                                        [10]  (列表对象B)
+
+换而言之, 执行了test[4]=[10]后, test 和 my_list 就是彻底两个完全无关的变量了
 '''
 
 import copy
@@ -77,6 +99,18 @@ import copy
 这里重新创建一个 my_list_restore, 是为了防止上面代码影响 my_list, 造成例子上的混乱
 无论如何, 都不会修改 my_list_restore.
 深拷贝能让拷贝前后的两个变量完全独立, 彻底隔离修改, 永不同步.
+
+执行深拷贝test_deepcopy=copy.deepcopy(my_list_restore) 后
+my_list_restore ──→ [ 索引0: 1, 索引1: 2, 索引2: 3, 索引3: 4, 索引4: ● ]
+                                                              │
+                                                              ▼
+                                                            [2, 3, 4]  (列表对象A)
+
+test_deepcopy  ──→ [ 索引0: 1, 索引1: 2, 索引2: 3, 索引3: 4, 索引4: ● ]
+                                                              │
+                                                              ▼
+                                                            [2, 3, 4]  (列表对象B) 全新的副本！
+可以验证, id(test_deepcopy[4])!=id(my_list_restore), 二者完全不同
 '''
 print('\n')
 my_list_restore=[1, 2, 3, 4, [2, 3, 4]]
@@ -88,4 +122,3 @@ print('my_list_restore', my_list_restore)
 test_deepcopy[4].append(5)
 print('test_deepcopy', test_deepcopy)
 print('my_list_restore', my_list_restore)
-
