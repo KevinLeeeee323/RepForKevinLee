@@ -179,3 +179,39 @@ print('my_list_restore', my_list_restore)
 test_deepcopy[4].append(5)
 print('test_deepcopy', test_deepcopy)
 print('my_list_restore', my_list_restore)
+
+
+
+# 以下是一些额外增加的内容:
+# 在 Python 中：当执行 func(a) 时，相当于函数内部有一个局部变量 nums，执行了 nums = a。
+# 此时，nums 和 a 是两个指向同一个内存地址的独立指针
+
+def try_to_change_by_assignment(nums):
+    # 逻辑：我不要原来的钥匙了，我重新创建一个新列表并把钥匙给 nums
+    nums = [99, 100] 
+
+a = [1, 2]
+try_to_change_by_assignment(a)
+print(a)  # 结果：[1, 2] —— 没变！
+'''
+这里面的执行顺序相当于:
+a = [1, 2]
+nums=a,
+nums = [99, 100] 
+那么 nums 最开始和a指向同一个地址, 但后面 nums指向了[99, 100], 和 a 解耦了, 因此二者不一样了
+'''
+
+def try_to_change_by_mutation(nums):
+    # 逻辑：我拿着传进来的钥匙，进屋加了个家具
+    nums.append(3)
+
+a = [1, 2]
+try_to_change_by_mutation(a)
+print(a)  # 结果：[1, 2, 3] —— 变了！
+'''
+这里面的执行顺序相当于:
+a = [1, 2]
+nums=a,
+nums.append(3)
+那么 nums和a指向同一个地址, 操作也就是同步的
+'''
