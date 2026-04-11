@@ -58,7 +58,7 @@ int main()
 {
     int arr[]={7, 6, 5, 3, 1, 8, 4, 12, 0, 9};
     int size=sizeof(arr)/sizeof(int);
-    MergeSort(0, size, arr);
+    MergeSort(0, size-1, arr);
     for(int i=0; i<size; i++)
         printf("%d ", arr[i]);
 }
