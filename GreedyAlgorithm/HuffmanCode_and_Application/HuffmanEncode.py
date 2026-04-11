@@ -32,7 +32,7 @@ class Node:
         self.left=left
         self.right=right
 
-    def __lt__(self, other):
+    def __lt__(self, other:Optional['Node']):
         return self.freq < other.freq
     
     '''
@@ -83,6 +83,3 @@ if __name__ == '__main__':
     huffman_dict=dict()
     gen_huffman_code(root, '', huffman_dict)
     print(huffman_dict)
-
-    # 计算平均编码长度
-    

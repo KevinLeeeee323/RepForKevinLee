@@ -59,7 +59,7 @@ int BinarySearch_MainStream(int key, int* arr, int arrSize)
     int mid=-1;
     while(left<=right)
     {
-        mid=left+(right-left)/2; //这一行见下面的多行注释
+        mid=left+(right-left)/2; //这一行见下面127行开始的多行注释
         if(arr[mid]==key)
             return mid;
         else if(arr[mid]<key)
@@ -83,6 +83,11 @@ int BinarySearch_LowerBound(int key, int* arr, int arrSize) {
     int left = 0;
     int right = arrSize - 1;
     int res = arrSize;
+    /* 
+    这里 res 必须初始化成 arrSize, 假设 key比 arr 中最大的元素还大(在 arr 升序情况下, 也就是 arr[arrSize-1]), 那数组中没有符合的元素
+    res=arrSize 恰好表明这一点
+    同理, 如果要找第一个<=key 的元素位置, 那就要初始化 res=-1, 以防key比 arr 中最小的元素还小(在 arr 升序情况下, 也就是 arr[0])
+    */
     int mid=-1;
     while (left <= right) 
     {
@@ -107,7 +112,7 @@ int BinarySearch_UpperBound(int key, int* arr, int arrSize) {
     while (left <= right) 
     {
         mid = left + (right - left) / 2;
-        if (arr[mid] > key) 
+        if (arr[mid] > key) // 只需要把上面 BinarySearch_LowerBound函数相同位置的 >= 改成 >
         {
             res = mid;      // 可能是答案
             right = mid - 1;   // 向左查找更优解
