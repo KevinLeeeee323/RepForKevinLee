@@ -1,14 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
 #define MaxCharCnt 256 // 最多 256 个字符需要标识, 对应 扩展 ASCII 码数量
-what are we???
 /*
     Huffman 编码.
     给定n 个字符: a_1, a_2, ... a_n, 第 i个字符a_i出现的频率 f_i (通过数组a, fre 存储)
     构建 Huffman 树, 并且返回每个字符对应的编码结果.
 
-    
+    过程如下:
     1. 构建 Huffman 树:
         Huffman 编码的一个关键在于, 每次选出频次最少的两个节点(对应频次 fre1, fre2).
         如果 fre1<fre2, 那就把 fre1 对应的 作为左子节点,  fre2 对应的作为右子节点. 其父节点频次 fre1+fre2.( PPT 上, 左子节点频次<右子节点频次, 但也可以反过来)
