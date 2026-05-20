@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #define MaxCharCnt 256 // 最多 256 个字符需要标识, 对应 扩展 ASCII 码数量
+what are we???
 /*
     Huffman 编码.
     给定n 个字符: a_1, a_2, ... a_n, 第 i个字符a_i出现的频率 f_i (通过数组a, fre 存储)
