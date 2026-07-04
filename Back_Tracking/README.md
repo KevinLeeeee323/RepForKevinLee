@@ -1,5 +1,4 @@
 专门给回溯算法做的仓库.
-参考资料: 代码随想录
 
 回溯代码通用结构: 
 ```text
@@ -15,3 +14,7 @@ void backtracking(参数) {
     }
 }
 ```
+
+题目来源: 
+![problem_list](problem_list.png)
+参考资料: 代码随想录
