@@ -18,7 +18,6 @@ class Solution:
         # m>0:  Using Dynamic Programming
         dp=[[False for _ in range(n+1)] for _ in range(m+1)]
         # dp[i][j]==True <==> p[0, 1, ...i-1] can match s[0, 1, ...j-1]
-        # 注意上面定义中的角标
         dp[0][0]=True
         for i in range(m):
             if p[i]=='*':
