@@ -141,7 +141,7 @@ def standard_jieba_word_segmentation(s:str, wd:dict):
 
     split_words=[]
     i=0
-    while i<n:
+    while i<n: # 回溯部分: 确定分词位置, 复杂度 O(n)
         word=s[i:split[i]]
         split_words.append(word)
         i=split[i]
