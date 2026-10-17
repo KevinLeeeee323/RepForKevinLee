@@ -1,3 +1,4 @@
 Leetcode 图论题单:
 1462 题: 求一张图中的可达矩阵(即从一个点出发, 可以达到哪些结点. 详见图论中"可达"的定义),魔改dfs https://leetcode.cn/problems/course-schedule-iv/description/
 417 题: 标准 DFS
+3551 题: 本质就是求抽象代数中的置换群都有哪些. 但实际上, 一个置换群等价于一个强联通分量. 建图+求强连通分量.
